@@ -1,0 +1,1190 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "$Learn swagger docs ",
+      "version": "1.0.0",
+      "title": "$Learn apis"
+    },
+    "tags": [
+      {
+        "name": "$learn apis",
+        "description": "",
+        "externalDocs": {}
+      }
+    ],
+    "paths": {
+      "/user/sign-up": {
+        "post": {
+          "tags": [
+             "User sign-up"
+          ],
+          "description": "First process for sign-up",
+          "operationId": "signup",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sign-up"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/complete-sign-up": {
+        "post": {
+          "tags": [
+            "User sign-up"
+          ],
+          "description": "last process for sign-up",
+          "operationId": "complete sign-up",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/complete-sign-up"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/login": {
+        "post": {
+          "tags": [
+            "User-login"
+          ],
+          "description": "Login user",
+          "operationId": "login",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/login"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/verify-otp": {
+        "post": {
+          "tags": [
+            "Otp-verification"
+          ],
+          "description": "otp verification",
+          "operationId": "otp verification",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/verify-otp"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/resend-otp": {
+        "post": {
+          "tags": [
+            "Resend-otp"
+          ],
+          "description": "resend otp",
+          "operationId": "resend otp",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/resend-otp"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/forget-password": {
+        "post": {
+          "tags": [
+            "Forget-password"
+          ],
+          "description": "Email is required for this",
+          "operationId": "forget-password",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forget-password"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/reset-password": {
+        "post": {
+          "tags": [
+            "Reset-password"
+          ],
+          "description": "For reset the password",
+          "operationId": "reset-password",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/reset-password"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/edit-user-info": {
+        "post": {
+          "tags": [
+            "Edit-account"
+          ],
+          "description": "Edit account details that user wants",
+          "operationId": "Edit-account",
+          "requestBody": {
+            "content": {
+              "multipart/form-data": {
+                "schema": {
+                  "$ref": "#/components/schemas/edit-user-info"
+                }
+              }              
+            },
+            "required": false
+          },
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/delete-user-account": {
+        "delete": {
+          "tags": [
+            "Delete-account"
+          ],
+          "description": "User delete account",
+          "operationId": "Delete-account",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/get-user-info": {
+        "get": {
+          "tags": [
+            "User-info"
+          ],
+          "description": "Getting data related to user",
+          "operationId": "user-info",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/view-challenges": {
+        "get": {
+          "tags": [
+            "View-challenges"
+          ],
+          "description": "vieew challenges",
+          "operationId": "all-challenges",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/view-challenge-detail/{challenge_id}": {
+        "get": {
+          "tags": [
+            "View-challenge-detail"
+          ],
+          "description": "view challenge detail",
+          "operationId": "view challenge detail",
+          "parameters":[
+            {
+              "name":"challenge_id",
+              "in":"path",
+              "required":true
+            }
+          ],
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/user-join-challenge": {
+        "post": {
+          "tags": [
+            "User-join-challenge"
+          ],
+          "description": "join-challenge",
+          "operationId": "join-challenge",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/join-challenges"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/get-joined-challenge": {
+        "get": {
+          "tags": [
+            "User-joined-challenges"
+          ],
+          "description": "joined challenges",
+          "operationId": "joined challenges",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/user/get-completed-challenge": {
+        "get": {
+          "tags": [
+            "User-completed-challenges"
+          ],
+          "description": "completed challenges",
+          "operationId": "completed challenges",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/admin-login": {
+        "post": {
+          "tags": [
+            "Admin-login"
+          ],
+          "description": "Login for admin",
+          "operationId": "Admin-login",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/admin-login"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/forget-password": {
+        "post": {
+          "tags": [
+            "Admin-forget-password"
+          ],
+          "description": "Email is required for this",
+          "operationId": "admin-forget-password",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/admin-forget-password"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/reset-password": {
+        "post": {
+          "tags": [
+            "Admin-reset-password"
+          ],
+          "description": "For reset the password",
+          "operationId": "admin-reset-password",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/admin-reset-password"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/change-password": {
+        "post": {
+          "tags": [
+            "Admin-change-password"
+          ],
+          "description": "change-password for admin",
+          "operationId": "change-password for admin",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/change-password"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/users-list": {
+        "get": {
+          "tags": [
+            "Admin-user-listing"
+          ],
+          "description": "Listing of registered users",
+          "operationId": "admin-user-listing",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/view-profile/{user_id}": {
+        "get": {
+          "tags": [
+            "Admin api for view single user detail"
+          ],
+          "description": "Detail of particular user",
+          "operationId": "single-user-detail",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"path",
+              "required":true
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/block-delete-user/{user_id}/{type}": {
+        "delete": {
+          "tags": [
+            "Admin api for delete user"
+          ],
+          "description": "delete-user-by-admin",
+          "operationId": "admin-delete-user",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "parameters":[
+            {
+              "name":"user_id",
+              "in":"path",
+              "required":true
+            },
+            {
+              "name":"type",
+              "in":"path",
+              "required":true,
+              "description":"1 for block, 2 for delete"
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/create-challenge": {
+        "post": {
+          "tags": [
+            "Admin-create-challenge"
+          ],
+          "description": "challenges created by admin",
+          "operationId": "Admin-create-challenge",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/admin-create-challenge"
+                }
+              }              
+            },
+            "required": true
+          },
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/edit-admin-profile": {
+        "post": {
+          "tags": [
+            "Edit-admin-account"
+          ],
+          "description": "Edit account details that admin wants",
+          "operationId": "Edit-admin-account",
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/edit-admin-account"
+                }
+              }              
+            },
+            "required": false
+          },
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/view-admin-profile": {
+        "get": {
+          "tags": [
+            "View-admin-profile"
+          ],
+          "description": "View-admin-profile",
+          "operationId": "View-admin-profile",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      },
+      "/admin/search-user/{search}": {
+        "get": {
+          "tags": [
+            "Search-user"
+          ],
+          "description": "Search-user",
+          "operationId": "Search-user",
+          "security": [
+            {
+              "bearerAuth": [
+                {
+                    "type": "http",
+                    "scheme": "bearer",
+                    "bearerFormat": "JWT"
+                }
+              ]
+            }
+          ],
+          "parameters":[
+            {
+              "name":"search",
+              "in":"path",
+              "required":true,
+              "description":"Provide character or some string.Api will check username,first_name,last_name if matched"
+            }
+          ],
+          "responses": {
+            "200":{
+                "description":"Ok"
+            },
+            "400":{
+                "description":"Bad request"
+            }
+          }
+        }
+      }
+    },
+    "externalDocs": {
+      "description": "Find out more about Swagger",
+      "url": "http://swagger.io"
+    },
+    "servers": [
+      {
+        "url": "http://192.168.1.89:4000"
+      }
+    ],
+    "components": {
+      "securitySchemes": {
+        "bearerAuth": {
+          "type": "http",
+          "scheme": "bearer",
+          "bearerFormat": "JWT"
+        }
+      },
+      "schemas": {
+        "sign-up": {
+          "type": "object",
+          "required": [
+            "mobile_number",
+            "country_code",
+            "email",
+            "first_name",
+            "last_name",
+            "gender",
+            "birth_date"
+          ],
+          "properties": {
+            "mobile_number": {
+              "type": "string",
+              "example": "9888828812",
+              "description":"Length must be 10"
+            },
+            "country_code": {
+              "type": "string",
+              "example": "+91"
+            },
+            "email": {
+              "type": "string",
+              "example": "abc@gmail.com",
+              "description":"Genuine email"
+            },
+            "first_name": {
+              "type": "string",
+              "example": "ram"
+            },
+            "last_name": {
+              "type": "string",
+              "example": "singh"
+            },
+            "gender": {
+              "type": "string",
+              "example": "male",
+              "description":"Gender must be male,female or other"
+            },
+            "birth_date": {
+                "type": "string",
+                "example": "2020-01-12"
+            }
+          }
+        },
+        "complete-sign-up": {
+            "type": "object",
+            "required": [
+              "type",
+              "user_name",
+              "password"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "9888828812 or abc@gmail.com",
+                "description":"In type, email or mobile number should be provided"
+              },
+              "user_name": {
+                "type": "string",
+                "description": "No space allow in username"
+              },
+              "password": {
+                "type": "string",
+                "description":"minimum length is 8 and maximum 16"
+              }
+            }
+        },
+        "verify-otp": {
+            "type": "object",
+            "required": [
+              "type",
+              "otp"              
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "9888828812 or abc@gmail.com",
+                "description":"In type, email or mobile number should be provided"
+              },
+              "otp": {
+                "type": "string",
+                "description": "enter otp that sent on email or mobile number"
+              }
+            }
+        },
+        "resend-otp": {
+            "type": "object",
+            "required": [
+              "type"             
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "example": "9888828812 or abc@gmail.com",
+                "description":"In type, email or mobile number should be provided"
+              }
+            }
+        },
+        "forget-password": {
+            "type": "object",
+            "required": [
+              "email"             
+            ],
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "abc@gmail.com",
+                "description":"registered email should be provided"
+              }
+            }
+        },
+        "reset-password": {
+            "type": "object",
+            "required": [
+              "email" ,
+              "new_password",
+              "confirm_password"            
+            ],
+            "properties": {
+              "email": {
+                "type": "string",
+                "example": "abc@gmail.com",
+                "description":"registered email should be provided"
+              },
+              "new_password": {
+                "type": "string",
+                "description":"minimum length is 8 and maximum 16"
+              },
+              "confirm_password": {
+                "type": "string",
+                "description":"minimum length is 8 and maximum 16"
+              }
+            }
+        },
+        "login": {
+            "type": "object",
+            "required": [
+              "login_type",
+              "password"                         
+            ],
+            "properties": {
+              "login_type": {
+                "type": "string",
+                "example": "abc@gmail.com or 1212345211",
+                "description":"In login_type, provide registered email or mobile_number"
+              },
+              "password": {
+                "type": "string"                
+              }
+            }
+        },
+        "edit-user-info": {
+            "type": "object",
+            "properties": {
+              "user_name": {
+                "type": "string"
+              },
+              "pronouns": {
+                "type": "string"                
+              },
+              "email": {
+                "type": "string"
+              },
+              "moble_number": {
+                "type": "string"
+              },
+              "profile_pic": {
+                "type": "file"
+              },
+              "latitude": {
+                "type": "double"
+              },
+              "longitude": {
+                "type": "double"
+              }
+            }
+        },
+        "join-challenges": {
+          "type": "object",
+          "required": [
+            "challenge_id",
+            "day_of_challenge",
+            "week_of_challenge",
+            "time_spent"                         
+          ],
+          "properties": {
+            "challenge_id": {
+              "type": "integer",
+              "example": 1,
+              "description":"Provide challenge id that user want to join"
+            },
+            "day_of_challenge": {
+              "type": "integer",
+              "example":1,
+              "description":"Provide day of the challenge"                
+            },
+            "week_of_challenge": {
+              "type": "integer",
+              "example":1,
+              "description":"Provide week of the challenge"                
+            },
+            "time_spent": {
+              "type": "string",
+              "example":"20",
+              "description":"Provide time spent by user in minutes"                
+            }
+          }
+        },
+        "admin-login": {
+          "type": "object",
+          "required": [
+            "email",
+            "password"                         
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "abc@gmail.com",
+              "description":"Provide registered email"
+            },
+            "password": {
+              "type": "string"                
+            }
+          }
+        },
+        "admin-forget-password": {
+        "type": "object",
+        "required": [
+          "email"             
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "example": "abc@gmail.com",
+            "description":"registered email should be provided"
+          }
+        }
+        },
+        "admin-reset-password": {
+          "type": "object",
+          "required": [
+            "email" ,
+            "new_password",
+            "confirm_password"            
+          ],
+          "properties": {
+            "email": {
+              "type": "string",
+              "example": "abc@gmail.com",
+              "description":"registered email should be provided"
+            },
+            "new_password": {
+              "type": "string",
+              "description":"minimum length is 8 and maximum 16"
+            },
+            "confirm_password": {
+              "type": "string",
+              "description":"minimum length is 8 and maximum 16"
+            }
+          }
+        },
+        "change-password": {
+          "type": "object",
+          "required": [
+            "old_password",
+            "new_password"                         
+          ],
+          "properties": {
+            "old_password": {
+              "type": "string",
+              "example": "123ff@ff",
+              "description":"Provide old password"
+            },
+            "new_password": {
+              "type": "string",
+              "example": "123ff@ff",
+              "description":"Password must be of length 8 or greater"
+            }
+          }
+        },
+        "admin-create-challenge": {
+        "type": "object",
+        "required": [
+          "title",
+          "start_date",
+          "end_date",
+          "challenge_amount",
+          "challenge_period",
+          "deposite_amount_for_challenge",
+          "days_per_week",
+          "hours_per_day"                         
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "example": "2 hours 5 days a week study challenge",
+            "description":"Name of the challenge"
+          },
+          "start_date": {
+            "type": "string",
+            "example":"2022-06-22",
+            "description":"Add start date of the challenge"               
+          },
+          "end_date": {
+            "type": "string",
+            "example":"2022-06-30",
+            "description":"Add end date of the challenge"               
+          },
+          "challenge_amount": {
+            "type": "string",
+            "example":"756",
+            "description":"Total amount of the challenge"               
+          },
+          "challenge_period": {
+            "type": "integer",
+            "example":3,
+            "description":"Number of weeks of the challenge"               
+          },
+          "deposite_amount_for_challenge": {
+            "type": "string",
+            "example":"50",
+            "description":"Amount required for the challenge to join"               
+          },
+          "days_per_week": {
+            "type": "integer",
+            "example":5,
+            "description":"Number of days per week"               
+          },
+          "hours_per_day": {
+            "type": "integer",
+            "example":2,
+            "description":"Number of hours per day"               
+          }
+        }
+        },
+        "edit-admin-account": {
+          "type": "object",
+          "properties": {
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"                
+            },
+            "email": {
+              "type": "string"
+            }
+          }
+      }
+     }
+    }
+  }
