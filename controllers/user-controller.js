@@ -195,6 +195,36 @@ exports.login = [
     }
 ]
 
+exports.latLong = [
+    body("email").trim().notEmpty().withMessage("email is required"),
+    body("latitude").trim().notEmpty().withMessage("latitude is required"),
+    body("longitude").trim().notEmpty().withMessage("longitude is required"),
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
+            }
+            const findUser = await db.User.findOne({
+                where: {
+                    email: req.body.email.toLowerCase()
+                }
+            })
+            console.log(findUser.email, "to find the email");
+            var obj = {
+                userId: findUser.id,
+                latitude: req.body.latitude,
+                longitude: req.body.longitude
+            }
+            await db.location.create(obj)
+            return response.successResponseWithData(res, "location updated", obj)
+        } catch (err) {
+            console.log(err);
+            return response.errorResponse(res, "something went wrong in catch block")
+        }
+    }
+]
+
 const sendOtp = async (email, userid) => {
     try {
         console.log("email", email, userid);
@@ -289,7 +319,7 @@ exports.forgetPassword = [
 ]
 
 exports.imgUpload = [
-    body("email").trim().notEmpty().withMessage("email is required"),
+
     async (req, res) => {
         try {
             const errors = validationResult(req);
@@ -298,25 +328,25 @@ exports.imgUpload = [
             }
             const findUser = await db.User.findOne({
                 where: {
-                    email: req.body.email.toLowerCase()
+                    email: req.current_user.email.toLowerCase()
 
                 }
             })
             console.log(findUser.id, "id ");
 
-           console.log("files", req.files); 
+            console.log("files", req.files);
             if (findUser) {
-                let file  = req.files;
+                let file = req.files;
                 for (let i = 0; i < file.length; i++) {
                     let obj = {
                         image: file[i].filename,
                         userId: findUser.id
                     }
-                    
-                     await db.images.create(obj)
+
+                    await db.images.create(obj)
                 }
-               
-              
+
+
                 console.log("filers", req.files[0].filename);
                 return response.successResponseWithData(res, "image uploaded")
             }

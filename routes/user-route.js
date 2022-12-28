@@ -10,6 +10,7 @@ router.post("/sign-up",userController.sign_up);
 router.post("/otpVerify",userController.otpVerify);
 router.post("/updateProfile",userController.updateProfile);
 router.post("/login",userController.login);
-router.post("/imgUpload",upload.profile.any(),userController.imgUpload);
+router.post("/latLong",userController.latLong);
+router.post("/imgUpload",middleware.userAuthorization,upload.profile.any(),userController.imgUpload);
 router.post("/forgetPassword",userController.forgetPassword);
 module.exports = router;
