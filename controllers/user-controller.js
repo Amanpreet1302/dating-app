@@ -14,6 +14,7 @@ const { param, body, validationResult } = require("express-validator");
 const { userLogger } = require("../logger/logger");
 const constants = require("../helper/constants");
 const { log } = require("winston");
+const { CloudWatchLogs } = require("aws-sdk");
 
 // user sign up
 exports.sign_up = [
@@ -247,8 +248,14 @@ const sendOtp = async (email, userid) => {
         // }
 
         console.log("email");
-        await db.userOtp.create({ otp: otpForMail, userId: userid });
+        var data = await db.userOtp.create({ otp: otpForMail, userId: userid });
         // return { otpForMail: otpForMail };
+        // if(data){
+        //     await data.update({
+        //         otp: otpForMail,
+        //         active:false
+        //     })
+        // }
 
 
 
@@ -334,35 +341,42 @@ exports.imgUpload = [
 ]
 // resend otp
 
-// exports.resendOtp = [
-//     body("email").trim().notEmpty().withMessage("Email is required"),
-//     async (req, res) => {
-//         try {
-//             const errors = validationResult(req);
-//             if (!errors.isEmpty()) {
-//                 return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
-//             }
-//             const findUser = await db.User.findOne({
-//                 where: {
-//                     email: req.body.email.toLowerCase()
-//                 }
-//             })
-//             console.log(findUser.email, "to find email");
+exports.resendOtp = [
+    body("email").trim().notEmpty().withMessage("Email is required"),
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
+            }
+            const findUser = await db.User.findOne({
+                where: {
+                    email: req.body.email.toLowerCase()
+                }
+            })
+            console.log(findUser.email, "to find email");
 
-//             if (!findUser) {
-//                 return response.errorResponse(res, "unable to find the user")
-//             }
-//             else{
-//                 const otpData = await sendOtp(req.body.email, findUser.id);
-//                 userLogger.info("otp sent to email and number");
-//                 return response.successResponseWithData(res, "Otp sent to the registered mobile number and email", otpData);
-//             }
-//         } catch (err) {
-// console.log(err, "error");
-// return response.errorResponse(res,"something went wrong in catch block")
-//         }
-//     }
-// ]
+            if (!findUser) {
+                return response.errorResponse(res, "unable to find the user")
+            }
+            else {
+                const otpForMail = utility.generateOTP(6);
+                console.log(otpForMail, "otp");
+             var data=   await db.userOtp.update({
+
+                otp:otpForMail,
+                active:false
+            }, {
+                where: { userId: findUser.id }
+                })
+                return response.successResponseWithData(res,"otp updated",data)
+            }
+        } catch (err) {
+            console.log(err, "error");
+            return response.errorResponse(res, "something went wrong in catch block")
+        }
+    }
+]
 //reset password
 exports.resetPassword = [
     body("email").trim().notEmpty().withMessage("Email is required"),

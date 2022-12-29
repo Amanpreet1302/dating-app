@@ -14,6 +14,6 @@ router.post("/latLong",userController.latLong);
 router.post("/imgUpload",upload.profile.any(),userController.imgUpload);
 router.post("/deleteImg",userController.deleteImg);
 router.post("/resetPassword",userController.resetPassword);
-// router.post("/resendOtp",userController.resendOtp);
+router.post("/resendOtp",userController.resendOtp);
 router.post("/forgetPassword",userController.forgetPassword);
 module.exports = router;
