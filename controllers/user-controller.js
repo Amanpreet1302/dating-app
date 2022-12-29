@@ -262,64 +262,36 @@ const sendOtp = async (email, userid) => {
 
 
 exports.forgetPassword = [
-
-    body("email").trim().notEmpty().withMessage("email is required"),
+    body("email").trim().notEmpty().withMessage("Email is required"),
     async (req, res) => {
         try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
-            } else {
-                let user = await db.User.findOne({ email: req.body.email });
-                if (user) {
-
-                    // const token = jwt.sign(
-                    //     { user_id: user._id },
-                    //     'somerandomsecret',
-                    //     {
-                    //         expiresIn: "24h",
-                    //     }
-                    // );
-
-                    let transporter = nodemailer.createTransport({
-                        host: 'smtp.mailtrap.io',
-                        port: 2525,
-
-                        auth: {
-                            user: '7d3e9d3f0f744c',
-                            pass: 'd0a2fc1b5de870'
-                        }
-                    });
-
-                    ;
-                    let mailOptions = {
-                        from: 'sfs.priyanka19@gmail.com',
-                        to: req.body.email,
-                        subject: 'Update Phone Number',
-                        html: 'Click on this given link to enter new password <a href = "http://localhost:4004/user/resetPassword/'
-                    };
-
-                    transporter.sendMail(mailOptions, (err, info) => {
-                        if (err) {
-
-                            return response.errorResponse(res, 'Mail not sent.', err);
-                        } else {
-
-                            return response.successResponseWithData(res, 'Mail send successfully.', user);
-
-                        }
-                    });
-                } else {
-                    return response.errorResponse(res, 'User not found.');
-                }
+            const error = validationResult(req);
+            if (!error.isEmpty()) {
+                return response.errorResponseWithData(res, error.array()[0]["msg"], error.array());
             }
+            const findEmail = await db.User.findOne({ where: { email: req.body.email } });
+            if (!findEmail) {
+                userLogger.error("Email is not registered. forget password api for user");
+                return response.errorResponse(res, "Email is not registered");
+            }
+            let obj = { type: "link for reset the password" };
+            const token = utility.generateToken(obj);
+            let url = "<a href=\"http://" + req.headers.host + "/user/get-ejs/" + token + "\">http://" + token + "</a>";
+            //let url1 = '<a href="https://'+req.headers.host+'/password/ejs/'+tokn+'">https://'+tokn+'</a>';
+            let link = "<p>You can change your password by clicking on the link below.</p>" + url + "<p>If you did not make this request. Please ignore this email.</p>";
+            await utility.sendEmail("sfs.aman22@gmail.com", req.body.email, "Reset password link", link);
+            userLogger.info("Link sent to the email. forget password api for user");
+            return response.successResponse(res, "Link sent to the email");
         }
-        catch (err) { console.log(err); return response.errorResponse(res, "Catch Block Error!!", err.message); }
+        catch (err) {
+            userLogger.error("Catch block error at forget password api", err);
+            return response.errorResponseWithData(res, "Something went wrong in forget password", err);
+        }
     }
-]
+];
 
 exports.imgUpload = [
-
+    body("email").trim().notEmpty().withMessage("email is required"),
     async (req, res) => {
         try {
             const errors = validationResult(req);
@@ -328,7 +300,7 @@ exports.imgUpload = [
             }
             const findUser = await db.User.findOne({
                 where: {
-                    email: req.current_user.email.toLowerCase()
+                    email: req.body.email.toLowerCase()
 
                 }
             })
@@ -357,6 +329,107 @@ exports.imgUpload = [
         } catch (err) {
             console.log("error", err);
             return response.errorResponse(res, "something went wrong in the catch block")
+        }
+    }
+]
+// resend otp
+
+// exports.resendOtp = [
+//     body("email").trim().notEmpty().withMessage("Email is required"),
+//     async (req, res) => {
+//         try {
+//             const errors = validationResult(req);
+//             if (!errors.isEmpty()) {
+//                 return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
+//             }
+//             const findUser = await db.User.findOne({
+//                 where: {
+//                     email: req.body.email.toLowerCase()
+//                 }
+//             })
+//             console.log(findUser.email, "to find email");
+
+//             if (!findUser) {
+//                 return response.errorResponse(res, "unable to find the user")
+//             }
+//             else{
+//                 const otpData = await sendOtp(req.body.email, findUser.id);
+//                 userLogger.info("otp sent to email and number");
+//                 return response.successResponseWithData(res, "Otp sent to the registered mobile number and email", otpData);
+//             }
+//         } catch (err) {
+// console.log(err, "error");
+// return response.errorResponse(res,"something went wrong in catch block")
+//         }
+//     }
+// ]
+//reset password
+exports.resetPassword = [
+    body("email").trim().notEmpty().withMessage("Email is required"),
+    body("new_password").trim().notEmpty().withMessage("New password is required"),
+    body("confirm_password").trim().notEmpty().withMessage("Confirm password is required"),
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
+            }
+            // find user with email
+            const findUser = await db.User.findOne({ where: { email: req.body.email } });
+            if (!findUser) {
+                userLogger.error("Email doesn't exists");
+                return response.errorResponse(res, "Email doesn't exists");
+            }
+            // check if password is same
+            if (req.body.new_password == req.body.confirm_password) {
+                // encrypt password
+                req.body.new_password = await utility.encyptPassword(req.body.new_password);
+                // update password
+                await user.update({ password: req.body.new_password }, { where: { id: findUser.id } });
+                userLogger.info("Password updated successfully. Go to login page");
+                return response.successResponse(res, "Password updated successfully. Go to login page");
+            }
+            userLogger.error("new password and confirm password must be same");
+            return response.errorResponse(res, "new password and confirm password must be same");
+        }
+        catch (err) {
+            userLogger.error("Catch block error at reset password api", err);
+            return response.errorResponseWithData(res, "Something went wrong in reset password", err);
+        }
+    }
+];
+
+// delete image
+
+exports.deleteImg = [
+    body("email").trim().notEmpty().withMessage("email is required"),
+
+    async (req, res) => {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                return response.errorResponseWithData(res, errors.array()[0]["msg"], errors.array());
+            }
+            const findUser = await db.User.findOne({
+                where: {
+                    email: req.body.email.toLowerCase()
+
+                }
+            })
+            console.log(findUser.id, "id ");
+
+            if (findUser) {
+                var data = await db.images.destroy({
+                    where: { userId: findUser.id }
+
+                })
+            }
+            console.log("data deleted successfully");
+            return response.successResponseWithData(res, "data deleted successfully", data)
+
+        } catch (err) {
+            console.log(err, "error");
+            return response.errorResponse(res, "something went wrong in catch block")
         }
     }
 ]

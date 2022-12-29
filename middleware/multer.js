@@ -11,13 +11,13 @@ const storage=multer.diskStorage({
     }
 });
 // allow only jpg,jpeg or png file to upload
-const fileFilter = (req, file, cb) => {
-    if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/JPEG" ||file.mimetype === "image/JPG" || file.mimetype === "image/PNG") {
-    cb(null, true);
-    } else {
-    cb(new Error("Invalid file type, only JPEG, JPG and PNG is allowed!"), false);
-    }
-};
+// const fileFilter = (req, file, cb) => {
+//     if (file.mimetype === "image/jpeg" || file.mimetype === "image/png" || file.mimetype === "image/jpg" || file.mimetype === "image/JPEG" ||file.mimetype === "image/JPG" || file.mimetype === "image/PNG") {
+//     cb(null, true);
+//     } else {
+//     cb(new Error("Invalid file type, only JPEG, JPG and PNG is allowed!"), false);
+//     }
+// };
 
 module.exports = {
     profile:multer({storage:storage })
